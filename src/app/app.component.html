@@ -1,20 +1,32 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<table>
+  <tr>
+    <td><a routerLink="/app-with-modal">Navigate to modal component</a></td>
+    <td>&nbsp;&nbsp;&nbsp;</td>
+    <td><a routerLink="/app-without-modal">Navigate away from modal component</a></td>
+  </tr>
+</table>
+<div>
+  <hr width="95%">
+  <router-outlet></router-outlet>
+  <hr width="95%">
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<div>
+  <h3>Instructions</h3>
+  <p>To reproduce the backdrop issue, just do the following:</p>
+  <ol>
+    <li>Navigate to modal component using the above link</li>
+    <li>Open and close the modal</li>
+    <li>Navigate away from the modal component using the above link</li>
+    <li>Navigate to modal component again using the above link</li>
+    <li>Open and close the modal</li>
+  </ol>
+  <p>After you have performed Step 5, the backdrop should now be visible even though you've closed the modal.</p>
+</div>
+<div>
+  <h3>Discussion</h3>
+  <p>If you take a look at <b>example-modal.component.ts</b>, you will see that it subscribes to an Observable
+  returned by an Angular service but doesn't unsubscribe from it at all.  This is the source of the problem.
+  If you uncomment the body of the <i>onDestroy</i> method, and then run the demo again, you will see that
+  the backdrop problem disappears.  An easy fix is for us developers to unsubscribe from our Observables
+  in components that make use of the ngx bootstrap control.</p>
+</div>
